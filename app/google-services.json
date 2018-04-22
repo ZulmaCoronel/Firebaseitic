@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1010728136631",
+    "firebase_url": "https://fir-itic-689d4.firebaseio.com",
+    "project_id": "fir-itic-689d4",
+    "storage_bucket": "fir-itic-689d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010728136631:android:7e10145ada834d13",
+        "android_client_info": {
+          "package_name": "mx.edu.ittepic.firebaseitic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010728136631-4md62letd1l5qfh2f0rq0lg30s8s8416.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.edu.ittepic.firebaseitic",
+            "certificate_hash": "bb12fbb459d7c1c72a1f2fce9ece5ccc7100d858"
+          }
+        },
+        {
+          "client_id": "1010728136631-j62ltqesr8vsmkmp4otf1bk9pddshd7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaMMSDUQ0pLfpV5_kuWmZAnZGAhwqB4H0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010728136631-j62ltqesr8vsmkmp4otf1bk9pddshd7c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
