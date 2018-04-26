@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,74 +20,84 @@ import com.google.firebase.database.ValueEventListener;
 
 public class  MainActivity extends AppCompatActivity {
 
-    private EditText editCorreo, editContraseña;
-    private FirebaseAuth firebaseAuth;
-    public Button botonLogin;
-    String correo="", contrasena="";
+    Button btnlogin,btnsignup;
+    EditText username, password;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnlogin = findViewById(R.id.login);
+        btnsignup = findViewById(R.id.signup);
+
+        username = findViewById(R.id.username);
+        password = findViewById(R.id.password);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if (firebaseAuth.getCurrentUser() != null) {
-
-            startActivity(new Intent(MainActivity.this,MainDB.class));
-            finish();
-        }
-
-        editCorreo = (EditText) findViewById(R.id.correo);
-        editContraseña = (EditText) findViewById(R.id.contrasena);
-        botonLogin = (Button) findViewById(R.id.btnLogin);
-
-        botonLogin.setOnClickListener(new View.OnClickListener() {
+        btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                correo = editCorreo.getText().toString().trim();
-                contrasena = editContraseña.getText().toString().trim();
-                if (TextUtils.isEmpty(correo)) {
-                    Toast.makeText(getApplicationContext(), "Ingrese un Correo", Toast.LENGTH_SHORT).show();
-                    return;
+            public void onClick(View v) {
+                try {
+                    login();
+                }catch (Exception e){
+                    Log.i("Error: ", e.getMessage());
                 }
-
-                if (TextUtils.isEmpty(contrasena)) {
-                    Toast.makeText(getApplicationContext(), "Ingrese una contraseña", Toast.LENGTH_SHORT).show();
-                    return;
+            }
+        });
+        btnsignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    signup();
+                }catch (Exception e){
+                    Log.i("Error: ", e.getMessage());
                 }
-                firebaseAuth.createUserWithEmailAndPassword(correo,contrasena).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            firebaseAuth.signInWithEmailAndPassword(correo, contrasena)
-                                    .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                            if (!task.isSuccessful()) {
-                                                if (contrasena.length() < 6) {
-                                                    Toast.makeText(getApplicationContext(), "Ingrese una contraseña", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "Error al iniciar sesion", Toast.LENGTH_SHORT).show();
-                                                }
-                                            } else {
-                                                Intent intent = new Intent(MainActivity.this, MainDB.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        }
-                                    });
-                        } else {
-                            startActivity(new Intent(MainActivity.this,MainDB.class));
-                            finish();
-                        }
-                    }
-                });
             }
         });
     }
 
+    public void signup(){
+
+        String user = username.getText().toString();
+        String pass = password.getText().toString();
+
+        firebaseAuth.createUserWithEmailAndPassword(user,pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(MainActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MainActivity.this, "Oops! Su registro falló ", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+    public void login(){
+        String user = username.getText().toString();
+        String pass = password.getText().toString();
+
+        try {
+            firebaseAuth.signInWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(MainActivity.this, "Sesión Iniciada", Toast.LENGTH_SHORT).show();
+                        Intent alumnosActivity = new Intent(MainActivity.this, AlumnosDB.class);
+                        MainActivity.this.startActivity(alumnosActivity);
+                    }else{
+                        Toast.makeText(MainActivity.this, "Oops! no se pudo iniciar sesión", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }catch (Exception e){
+            Log.i("ERROR",e.getMessage(),e.getCause());
+        }
+
+    }
 
 }

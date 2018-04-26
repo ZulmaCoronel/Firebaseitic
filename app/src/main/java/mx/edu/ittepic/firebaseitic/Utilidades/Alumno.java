@@ -5,33 +5,29 @@ package mx.edu.ittepic.firebaseitic.Utilidades;
  */
 
 public class  Alumno {
-        String nombrealumno;
+        private String nombre,ncontrol;
 
-        public Alumno(String nombrealumno, String numerocontrol) {
-                this.nombrealumno = nombrealumno;
-                this.numerocontrol = numerocontrol;
-        }
         public Alumno() {
-
-        }
-        public String getNombrealumno() {
-
-                return nombrealumno;
         }
 
-        public void setNombrealumno(String nombrealumno) {
-                this.nombrealumno = nombrealumno;
+        public Alumno(String nombre, String ncontrol) {
+                this.nombre = nombre;
+                this.ncontrol = ncontrol;
         }
 
-        public String getNumerocontrol() {
-                return numerocontrol;
+        public String getNombre() {
+                return nombre;
         }
 
-        public void setNumerocontrol(String numerocontrol) {
-                this.numerocontrol = numerocontrol;
+        public void setNombre(String nombre) {
+                this.nombre = nombre;
         }
 
-        String numerocontrol;
+        public String getNcontrol() {
+                return ncontrol;
+        }
 
-
+        public void setNcontrol(String ncontrol) {
+                this.ncontrol = ncontrol;
+        }
 }
